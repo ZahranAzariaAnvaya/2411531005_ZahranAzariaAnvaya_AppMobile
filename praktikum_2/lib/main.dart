@@ -4,8 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
-// 1. WIDGET UTAMA
-
+// 1. WIDGET UTAMA (Root Aplikasi)
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -20,8 +19,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// 2. HALAMAN UTAMA (SCAFFOLD) - DIPERBARUI
-
+// 2. HALAMAN UTAMA (Scaffold) - DIPERBARUI
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
@@ -30,10 +28,9 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Praktikum 2: Layouting'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.teal,
       ),
-
-      // Agar halaman dapat digulir jika isinya panjang
+      // MENGGUNAKAN SingleChildScrollView agar layar bisa di-scroll
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -44,8 +41,6 @@ class DashboardScreen extends StatelessWidget {
               SizedBox(height: 20),
               BalanceCardWidget(),
               SizedBox(height: 20),
-
-              // Widget baru Modul 2
               ActionButtonsWidget(),
               SizedBox(height: 20),
               RecentTransactionsWidget(),
@@ -57,8 +52,7 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-// 3. STATELESS WIDGET (SAPAAN PENGGUNA)
-
+// 3. STATELESS WIDGET
 class GreetingWidget extends StatelessWidget {
   const GreetingWidget({super.key});
 
@@ -66,26 +60,21 @@ class GreetingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Row(
       children: [
-        // Ikon profil
         CircleAvatar(
           radius: 24,
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.teal,
           child: Icon(Icons.person, size: 30, color: Colors.white),
         ),
-
         SizedBox(width: 12),
-
-        // Teks sapaan
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Halo, Zahran!',
+              'Halo, Zahran',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 4),
             Text(
-              'Selamat Datang Kembali!',
+              'Selamat datang kembali!',
               style: TextStyle(fontSize: 14, color: Colors.grey),
             ),
           ],
@@ -95,8 +84,7 @@ class GreetingWidget extends StatelessWidget {
   }
 }
 
-// 4. STATEFUL WIDGET (KARTU SALDO DENGAN TOGGLE)
-
+// 4. STATEFUL WIDGET (Kartu Saldo)
 class BalanceCardWidget extends StatefulWidget {
   const BalanceCardWidget({super.key});
 
@@ -107,8 +95,7 @@ class BalanceCardWidget extends StatefulWidget {
 class _BalanceCardWidgetState extends State<BalanceCardWidget> {
   bool _isBalanceVisible = true;
 
-  // Fungsi untuk menampilkan atau menyembunyikan saldo
-  void _toggleBalanceVisibility() {
+  void _toggleVisibility() {
     setState(() {
       _isBalanceVisible = !_isBalanceVisible;
     });
@@ -119,16 +106,12 @@ class _BalanceCardWidgetState extends State<BalanceCardWidget> {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-
-      // Hasil tugas Modul 1
       color: Colors.teal,
-
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Baris atas kartu
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -136,21 +119,16 @@ class _BalanceCardWidgetState extends State<BalanceCardWidget> {
                   'Saldo Utama',
                   style: TextStyle(fontSize: 16, color: Colors.white70),
                 ),
-
-                // Tombol mata
                 IconButton(
                   icon: Icon(
                     _isBalanceVisible ? Icons.visibility : Icons.visibility_off,
                     color: Colors.white,
                   ),
-                  onPressed: _toggleBalanceVisibility,
+                  onPressed: _toggleVisibility,
                 ),
               ],
             ),
-
             const SizedBox(height: 8),
-
-            // Nominal saldo
             Text(
               _isBalanceVisible ? 'Rp 5.000.000' : 'Rp *********',
               style: const TextStyle(
@@ -159,13 +137,6 @@ class _BalanceCardWidgetState extends State<BalanceCardWidget> {
                 color: Colors.white,
               ),
             ),
-
-            // Hasil tugas Modul 1
-            const SizedBox(height: 12),
-            const Text(
-              'No. Rekening: 1234-5678',
-              style: TextStyle(fontSize: 14, color: Colors.white70),
-            ),
           ],
         ),
       ),
@@ -173,16 +144,14 @@ class _BalanceCardWidgetState extends State<BalanceCardWidget> {
   }
 }
 
-// 5. WIDGET TOMBOL AKSI (ROW) - MODUL 2
-
+// 5. WIDGET TOMBOL AKSI (ROW)
 class ActionButtonsWidget extends StatelessWidget {
   const ActionButtonsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Row menyusun tombol secara horizontal
+    // Menggunakan Row untuk menata tombol secara horizontal
     return Row(
-      // Membagi jarak antar tombol secara rata
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildActionButton(Icons.arrow_downward, 'Pemasukan', Colors.green),
@@ -192,30 +161,27 @@ class ActionButtonsWidget extends StatelessWidget {
     );
   }
 
-  // Fungsi pembantu untuk membuat desain tombol
+  // Fungsi pembantu untuk membuat desain tombol agar kode tidak berulang
   Widget _buildActionButton(IconData icon, String label, Color color) {
     return Column(
       children: [
-        // Container pembungkus ikon
+        // Container untuk membungkus ikon dengan warna background
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.2),
+            color: color.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: color, size: 28),
         ),
-
         const SizedBox(height: 8),
-
         Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
       ],
     );
   }
 }
 
-// 6. WIDGET DAFTAR TRANSAKSI (COLUMN DAN LISTTILE)
-
+// 6. WIDGET DAFTAR TRANSAKSI (COLUMN & LISTTILE)
 class RecentTransactionsWidget extends StatelessWidget {
   const RecentTransactionsWidget({super.key});
 
@@ -228,10 +194,8 @@ class RecentTransactionsWidget extends StatelessWidget {
           'Transaksi Terakhir',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-
         const SizedBox(height: 12),
-
-        // Card pembungkus daftar transaksi
+        // Menggunakan Card agar daftar transaksi memiliki bayangan/bingkai
         Card(
           elevation: 2,
           shape: RoundedRectangleBorder(
@@ -239,17 +203,15 @@ class RecentTransactionsWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              // Transaksi 1
-              const ListTile(
-                leading: CircleAvatar(
+              // Item Transaksi 1
+              ListTile(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.redAccent,
                   child: Icon(Icons.fastfood, color: Colors.white),
                 ),
-                title: Text('Makan Siang'),
-                subtitle: Text('13 Sep 2026'),
-
-                // Pengeluaran berwarna merah
-                trailing: Text(
+                title: const Text('Makan Siang'),
+                subtitle: const Text('13 Sep 2026'), // Tanggal statis
+                trailing: const Text(
                   '- Rp 50.000',
                   style: TextStyle(
                     color: Colors.red,
@@ -257,20 +219,16 @@ class RecentTransactionsWidget extends StatelessWidget {
                   ),
                 ),
               ),
-
-              const Divider(height: 1),
-
-              // Transaksi 2
-              const ListTile(
-                leading: CircleAvatar(
+              const Divider(height: 1), // Garis pemisah
+              // Item Transaksi 2
+              ListTile(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.green,
                   child: Icon(Icons.attach_money, color: Colors.white),
                 ),
-                title: Text('Gaji Bulanan'),
-                subtitle: Text('01 Sep 2026'),
-
-                // Pemasukan berwarna hijau
-                trailing: Text(
+                title: const Text('Gaji Bulanan'),
+                subtitle: const Text('01 Sep 2026'),
+                trailing: const Text(
                   '+ Rp 5.000.000',
                   style: TextStyle(
                     color: Colors.green,
@@ -278,18 +236,17 @@ class RecentTransactionsWidget extends StatelessWidget {
                   ),
                 ),
               ),
-
               const Divider(height: 1),
 
-              // Transaksi 3
-              const ListTile(
-                leading: CircleAvatar(
+              // Item Transaksi 3
+              ListTile(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.blueAccent,
                   child: Icon(Icons.directions_car, color: Colors.white),
                 ),
-                title: Text('Isi Bensin'),
-                subtitle: Text('10 Sep 2026'),
-                trailing: Text(
+                title: const Text('Isi Bensin'),
+                subtitle: const Text('10 Sep 2026'),
+                trailing: const Text(
                   '- Rp 150.000',
                   style: TextStyle(
                     color: Colors.red,
@@ -300,15 +257,15 @@ class RecentTransactionsWidget extends StatelessWidget {
 
               const Divider(height: 1),
 
-              // Tugas 2: Transaksi fiktif baru pertama
-              const ListTile(
-                leading: CircleAvatar(
+              // Transaksi tambahan 1: pengeluaran
+              ListTile(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.orange,
                   child: Icon(Icons.shopping_cart, color: Colors.white),
                 ),
-                title: Text('Belanja Bulanan'),
-                subtitle: Text('14 Sep 2026'),
-                trailing: Text(
+                title: const Text('Belanja Bulanan'),
+                subtitle: const Text('14 Sep 2026'),
+                trailing: const Text(
                   '- Rp 350.000',
                   style: TextStyle(
                     color: Colors.red,
@@ -319,15 +276,15 @@ class RecentTransactionsWidget extends StatelessWidget {
 
               const Divider(height: 1),
 
-              // Tugas 2: Transaksi fiktif baru kedua
-              const ListTile(
-                leading: CircleAvatar(
+              // Transaksi tambahan 2: pemasukan
+              ListTile(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.green,
                   child: Icon(Icons.work, color: Colors.white),
                 ),
-                title: Text('Bonus Freelance'),
-                subtitle: Text('15 Sep 2026'),
-                trailing: Text(
+                title: const Text('Bonus Freelance'),
+                subtitle: const Text('15 Sep 2026'),
+                trailing: const Text(
                   '+ Rp 750.000',
                   style: TextStyle(
                     color: Colors.green,
