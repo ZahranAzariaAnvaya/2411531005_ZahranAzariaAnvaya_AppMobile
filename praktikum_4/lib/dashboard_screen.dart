@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:praktikum_4/detail_transaction_screen.dart';
+import 'package:praktikum_4/transaction_detail_screen.dart';
 import 'package:praktikum_4/add_transaction_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
